@@ -1,4 +1,4 @@
-package org.kamilimu.books.ui.theme
+package org.kamilimu.books.theme
 
 import androidx.compose.ui.graphics.Color
 

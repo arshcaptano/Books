@@ -1,0 +1,4 @@
+
+
+
+View (Composables) -> ScreenState -> ViewModel  -> Model -> Repository (Database, Api)
