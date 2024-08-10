@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Books</string>
+
+    <!-- NavBar labels -->
+    <string name="nav_bar_home">Home</string>
+    <string name="nav_bar_favourites">Favourites</string>
 </resources>
