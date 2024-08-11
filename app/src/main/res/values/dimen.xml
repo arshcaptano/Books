@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- General padding values -->
     <dimen name="padding_large">16dp</dimen>
     <dimen name="padding_medium">12dp</dimen>
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_extra_small">4dp</dimen>
 
     <dimen name="divider_thickness">1dp</dimen>
+
+    <!-- Card item width -->
+    <dimen name="card_item_width">100dp</dimen>
 </resources>
