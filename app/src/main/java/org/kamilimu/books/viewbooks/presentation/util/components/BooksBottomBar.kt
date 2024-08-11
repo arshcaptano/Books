@@ -56,7 +56,7 @@ fun BooksBottomBar(
                         )
                     }
                 },
-                onClick = if (currentScreen == ScreenNames.HomeScreen) onHomeClicked else onFavoritesClicked
+                onClick = if (item.destination == ScreenNames.HomeScreen) onHomeClicked else onFavoritesClicked
             )
         }
     }

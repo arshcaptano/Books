@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -32,6 +33,8 @@ import org.kamilimu.books.viewbooks.domain.model.Person
 fun BookCard(
     book: Book,
     navController: NavHostController,
+    onFavouriteClicked: () -> Unit,
+    onCardClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     BookCardContent(
@@ -39,6 +42,8 @@ fun BookCard(
         subjects = book.subjects,
         authors = book.authors,
         onCardClicked = { /*TODO*/ },
+        isBookmarked = book.isBookmarked,
+        onFavouriteClicked = onFavouriteClicked,
         modifier = modifier
     )
 }
@@ -50,6 +55,8 @@ fun BookCardContent(
     subjects: List<String>,
     authors: List<Person>,
     onCardClicked: () -> Unit,
+    isBookmarked: Boolean,
+    onFavouriteClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -74,10 +81,10 @@ fun BookCardContent(
                     modifier = Modifier.weight(1f)
                 )
                 IconButton(
-                    onClick = {}
+                    onClick = onFavouriteClicked
                 ) {
                     Icon(
-                        imageVector = Icons.Outlined.FavoriteBorder,
+                        imageVector = if (isBookmarked) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
                         contentDescription = null
                     )
                 }
@@ -112,7 +119,9 @@ private fun BookCardContentPreviewLight() {
             title = "The Alchemist",
             subjects = listOf("History", "Philosophy"),
             authors = listOf(Person(name = "Paulo Coelho", birthYear = 1950, deathYear = null)),
-            onCardClicked = {}
+            onCardClicked = {},
+            isBookmarked = true,
+            onFavouriteClicked = {}
         )
     }
 }
@@ -126,7 +135,9 @@ private fun BookCardContentPreviewDark() {
             title = "The Alchemist",
             subjects = listOf("History", "Philosophy"),
             authors = listOf(Person(name = "Paulo Coelho", birthYear = 1950, deathYear = null)),
-            onCardClicked = {}
+            onCardClicked = {},
+            isBookmarked = false,
+            onFavouriteClicked = {}
         )
     }
 }

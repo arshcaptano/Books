@@ -1,6 +1,8 @@
 package org.kamilimu.books.viewbooks.domain.model
 
-data class Book(
+import com.google.gson.annotations.SerializedName
+
+data class BookRemote(
     val id: Int,
     val title: String,
     val subjects: List<String>,
@@ -9,8 +11,9 @@ data class Book(
     val bookshelves: List<String>,
     val languages: List<String>,
     val copyright: Boolean?,
+    @SerializedName("media_type")
     val mediaType: String,
     val formats: Format,
-    val downloadCount: Int,
-    var isBookmarked: Boolean = false
+    @SerializedName("download_count")
+    val downloadCount: Int
 )
