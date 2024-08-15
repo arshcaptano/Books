@@ -38,11 +38,3 @@ fun provideOkHttpClient(): OkHttpClient {
 }
 
 fun provideApi(retrofit: Retrofit): Api = retrofit.create(Api::class.java)
-
-fun example(){
-    var app = App() // Address 1
-    app.newNumber = 3
-
-    app = App() // Address 2
-    println(app.newNumber) // ->2
-}

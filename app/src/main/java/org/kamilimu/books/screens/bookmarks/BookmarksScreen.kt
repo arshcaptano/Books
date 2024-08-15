@@ -9,11 +9,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.kamilimu.books.screens.books.BookDetailScreen
+import org.kamilimu.books.screens.books.BooksViewModel
 import org.kamilimu.books.screens.books.models.Book
 import org.kamilimu.books.shared.components.LottieView
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun BookmarksScreen() {
+fun BookmarksScreen(vm: BookmarksViewModel = koinViewModel()) {
+    vm.insertDemoBooks()
+
     Box {
         Text("Bookmarks")
 
