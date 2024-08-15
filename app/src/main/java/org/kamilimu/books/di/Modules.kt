@@ -4,7 +4,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import org.kamilimu.books.database.provideBookDao
-import org.kamilimu.books.database.provideRoomDatabase
+import org.kamilimu.books.database.provideDatabase
 import org.kamilimu.books.network.provideApi
 import org.kamilimu.books.network.provideOkHttpClient
 import org.kamilimu.books.network.provideRetrofit
@@ -24,16 +24,14 @@ val networkModule: Module = module {
 }
 
 val dbModule: Module = module {
-    single {
-        CoroutineScope(SupervisorJob() + Dispatchers.IO)
-    }
-    single { provideRoomDatabase(androidContext(), get()) }
+    single { CoroutineScope(SupervisorJob() + Dispatchers.IO) }
+    single { provideDatabase(androidContext(), get()) }
     single { provideBookDao(get()) }
 }
 
 val booksModule: Module = module {
     single { BooksRepository(get()) }
-    viewModel { BooksViewModel(get()) }
+    viewModel { BooksViewModel(get(), get()) }
 }
 
 val bookmarksModule: Module = module {

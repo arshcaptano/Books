@@ -8,7 +8,6 @@ import androidx.room.Update
 /**
  * This contains common functions between all the dao*/
 interface BaseDao<T> {
-
     /**
      * Insert single value on database*/
     @Insert(onConflict = REPLACE)
@@ -17,7 +16,7 @@ interface BaseDao<T> {
     /**
      * Insert list of data into database
      *
-     * [values] is list of data to be inserted into databse*/
+     * [values] is list of data to be inserted into database*/
     @Insert(onConflict = REPLACE)
     suspend fun insert(values: List<T>)
 

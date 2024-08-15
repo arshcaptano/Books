@@ -15,7 +15,7 @@ const val DbName = "books_db"
 
 @Database(
     entities = [
-        BookEntity::class
+        BookEntity::class,
     ],
     version = 1,
     exportSchema = false
@@ -55,7 +55,7 @@ val MIGRATION_1_2: Migration = object : Migration(1, 2) {
 }
 
 
-fun provideRoomDatabase(context: Context, scope: CoroutineScope): AppDatabase {
+fun provideDatabase(context: Context, scope: CoroutineScope): AppDatabase {
     var database: AppDatabase? = null
 
     database = Room.databaseBuilder(context, AppDatabase::class.java, DbName)

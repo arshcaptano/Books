@@ -16,8 +16,6 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun BookmarksScreen(vm: BookmarksViewModel = koinViewModel()) {
-    vm.insertDemoBooks()
-
     Box {
         Text("Bookmarks")
 

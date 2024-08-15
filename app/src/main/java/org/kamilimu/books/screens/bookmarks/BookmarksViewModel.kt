@@ -9,31 +9,19 @@ import kotlinx.coroutines.launch
 import org.kamilimu.books.database.AppDatabase
 import org.kamilimu.books.screens.bookmarks.db.BookEntity
 
-class BookmarksViewModel(private val appDatabase: AppDatabase) : ViewModel() {
+class BookmarksViewModel(private val database: AppDatabase) : ViewModel() {
     private val _screenState = MutableStateFlow(BookmarksScreenState())
     val screenState: StateFlow<BookmarksScreenState> = _screenState.asStateFlow()
 
     init {
-        insertDemoBooks()
         getBookmarks()
-    }
-
-     fun insertDemoBooks(){
-         viewModelScope.launch {
-             appDatabase.getBookDao().insert(
-                 listOf(
-                     BookEntity(id = 1, title = "Book C"),
-                     BookEntity(id = 2, title = "Book D")
-                 )
-             )
-         }
     }
 
     private fun getBookmarks() {
         _screenState.value = _screenState.value.copy(isLoading = true)
 
         viewModelScope.launch {
-            appDatabase.getBookDao()
+            database.getBookDao().getBooks()
         }
     }
 }
