@@ -2,8 +2,10 @@ package org.kamilimu.books.network
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import okhttp3.Dispatcher
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.kamilimu.books.App
 import org.kamilimu.books.baseUrl
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -36,3 +38,11 @@ fun provideOkHttpClient(): OkHttpClient {
 }
 
 fun provideApi(retrofit: Retrofit): Api = retrofit.create(Api::class.java)
+
+fun example(){
+    var app = App() // Address 1
+    app.newNumber = 3
+
+    app = App() // Address 2
+    println(app.newNumber) // ->2
+}

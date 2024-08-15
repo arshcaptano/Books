@@ -17,4 +17,6 @@ class App : Application() {
             modules(networkModule + booksModule)
         }
     }
+
+    var newNumber = 2
 }
