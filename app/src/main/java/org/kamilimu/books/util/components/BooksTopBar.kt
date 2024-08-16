@@ -1,4 +1,4 @@
-package org.kamilimu.books.viewbooks.presentation.util.components
+package org.kamilimu.books.util.components
 
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api

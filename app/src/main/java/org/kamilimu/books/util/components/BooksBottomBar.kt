@@ -1,4 +1,4 @@
-package org.kamilimu.books.viewbooks.presentation.util.components
+package org.kamilimu.books.util.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -16,8 +16,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import org.kamilimu.books.R
 import org.kamilimu.books.ui.theme.BooksTheme
-import org.kamilimu.books.viewbooks.presentation.util.NavBarItem
-import org.kamilimu.books.viewbooks.presentation.util.ScreenNames
+import org.kamilimu.books.util.NavBarItem
+import org.kamilimu.books.util.ScreenNames
 
 @Composable
 fun BooksBottomBar(
