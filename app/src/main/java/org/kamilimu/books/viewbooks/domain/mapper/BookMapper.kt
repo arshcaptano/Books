@@ -21,22 +21,3 @@ fun BookRemote.toBook(): Book {
         downloadCount = this.downloadCount
     )
 }
-
-/**
- * Maps a [Book] object to a remote layer [BookRemote] object
- */
-fun Book.toBookRemote(): BookRemote {
-    return BookRemote(
-        id = this.id,
-        title = this.title,
-        subjects = this.subjects,
-        authors = this.authors,
-        translators = this.translators,
-        bookshelves = this.bookshelves,
-        languages = this.languages,
-        copyright = this.copyright,
-        mediaType = this.mediaType,
-        formats = this.formats,
-        downloadCount = this.downloadCount
-    )
-}
