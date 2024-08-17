@@ -1,4 +1,4 @@
-package org.kamilimu.books.viewbooks.presentation.util
+package org.kamilimu.books.util
 
 import androidx.compose.ui.graphics.vector.ImageVector
 
