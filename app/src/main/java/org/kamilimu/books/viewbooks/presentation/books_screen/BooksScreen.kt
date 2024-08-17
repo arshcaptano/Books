@@ -13,22 +13,26 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import org.kamilimu.books.viewbooks.presentation.util.ScreenNames
+import org.kamilimu.books.bookmarks.presentation.bookmarkScreen.BookmarkViewModel
+import org.kamilimu.books.bookmarks.presentation.bookmarkScreen.FavouritesScreen
+import org.kamilimu.books.util.ScreenNames
 
 
 /**
  * Contains the [NavHost] of the app where all destinations in the are defined in the NavGraph
  * @param booksViewModel an instance of [BookViewModel] injected as a dependency
+ * @param bookmarksViewModel an instance of the [BookmarkViewModel] injected as a dependency
  * @param navController used to control navigation across different screens as defined in
  * the [NavHost] navGraph
  */
 @Composable
 fun BooksScreen(
-    booksViewModel: BookViewModel =  hiltViewModel(),
+    booksViewModel: BookViewModel = hiltViewModel(),
+    bookmarksViewModel: BookmarkViewModel = hiltViewModel(),
     navController: NavHostController = rememberNavController()
 ) {
     val booksUiState by booksViewModel.booksState.collectAsStateWithLifecycle()
-    val bookmarkedBooks by booksViewModel.bookmarkedBooks.collectAsStateWithLifecycle()
+    val bookmarksUiState by bookmarksViewModel.bookmarkState.collectAsStateWithLifecycle()
 
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen = ScreenNames.valueOf(
@@ -45,6 +49,7 @@ fun BooksScreen(
                 currentScreen = currentScreen,
                 navController = navController,
                 onFavouriteClicked = booksViewModel::onFavouriteClicked,
+                onScreenInFocus = booksViewModel::syncBookmarkedBooksInBookHomeScreen,
                 modifier = Modifier
                     .fillMaxSize()
                     .wrapContentSize(Alignment.Center)
@@ -53,10 +58,11 @@ fun BooksScreen(
 
         composable(route = ScreenNames.FavouritesScreen.name) {
             FavouritesScreen(
-                bookmarkedBooks = bookmarkedBooks,
+                bookmarksUiState = bookmarksUiState,
                 currentScreen = currentScreen,
                 navController = navController,
-                onFavouriteClicked = booksViewModel::onFavouriteClicked,
+                onAddBookmark = bookmarksViewModel::onAddBookmark,
+                onRemoveBookmark = bookmarksViewModel::onDeleteBookmark,
                 modifier = Modifier
                     .fillMaxSize()
                     .wrapContentSize(Alignment.Center)

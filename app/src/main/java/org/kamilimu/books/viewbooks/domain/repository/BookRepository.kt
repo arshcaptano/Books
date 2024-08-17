@@ -11,12 +11,4 @@ interface BookRepository {
     suspend fun getBooks(): Either<NetworkError, BookData>
 
     suspend fun getBookById(bookId: Int): Either<NetworkError, BookRemote>
-
-    suspend fun insertBook(book: Book)
-
-    suspend fun getBookmarkedBookById(bookId: Int): Book?
-
-    fun getBookmarkedBooks(): Flow<List<Book>>
-
-    suspend fun deleteBookmarkedBookById(bookId: Int)
 }

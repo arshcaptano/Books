@@ -8,27 +8,35 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import org.kamilimu.books.R
 import org.kamilimu.books.viewbooks.domain.model.Book
-import org.kamilimu.books.viewbooks.presentation.books_screen.components.BookCard
-import org.kamilimu.books.viewbooks.presentation.books_screen.components.ErrorScreen
-import org.kamilimu.books.viewbooks.presentation.books_screen.components.LoadingScreen
-import org.kamilimu.books.viewbooks.presentation.util.ScreenNames
-import org.kamilimu.books.viewbooks.presentation.util.components.BooksBottomBar
-import org.kamilimu.books.viewbooks.presentation.util.components.BooksTopBar
+import org.kamilimu.books.util.components.BookCard
+import org.kamilimu.books.util.components.ErrorScreen
+import org.kamilimu.books.util.components.LoadingScreen
+import org.kamilimu.books.util.ScreenNames
+import org.kamilimu.books.util.components.BooksBottomBar
+import org.kamilimu.books.util.components.BooksTopBar
 
 @Composable
 fun BooksHomeScreen(
     modifier: Modifier = Modifier,
     booksUiState: BooksViewState,
     currentScreen: ScreenNames,
+    onScreenInFocus: () -> Unit,
     navController: NavHostController,
     onFavouriteClicked: (Book) -> Unit
 ) {
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    LaunchedEffect(backStackEntry) {
+        onScreenInFocus()
+    }
     Scaffold(
         modifier = modifier,
         topBar  = {
