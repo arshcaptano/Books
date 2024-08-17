@@ -2,6 +2,7 @@ package org.kamilimu.books.di
 
 import android.content.Context
 import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -11,10 +12,10 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.kamilimu.books.bookmarks.data.local.BookmarkDatabase
 import org.kamilimu.books.util.BASE_URL
-import org.kamilimu.books.viewbooks.data.local.BookDatabase
+import org.kamilimu.books.util.DATABASE_NAME
 import org.kamilimu.books.viewbooks.data.remote.BookApiService
-import org.kamilimu.books.viewbooks.domain.model.BookData
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -54,17 +55,17 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideBookDatabase(
+    fun provideBookmarkDatabase(
         @ApplicationContext appContext: Context
-    ): BookDatabase {
+    ): BookmarkDatabase {
         return Room.databaseBuilder(
             context = appContext,
-            klass = BookDatabase::class.java,
-            name = "books_db"
+            klass = BookmarkDatabase::class.java,
+            name = DATABASE_NAME
         ).build()
     }
 
     @Provides
     @Singleton
-    fun provideBookDao(db: BookDatabase) = db.getBookDao()
+    fun provideBookDao(db: BookmarkDatabase) = db.getBookmarkDao()
 }
