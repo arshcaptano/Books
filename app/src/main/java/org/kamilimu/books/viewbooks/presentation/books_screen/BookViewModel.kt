@@ -1,8 +1,10 @@
 package org.kamilimu.books.viewbooks.presentation.books_screen
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -10,6 +12,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.kamilimu.books.bookmarks.domain.repository.BookmarkRepository
 import org.kamilimu.books.viewbooks.domain.mapper.toBook
 import org.kamilimu.books.viewbooks.domain.model.Book
@@ -99,11 +102,15 @@ class BookViewModel @Inject constructor(
      * Syncs the state of bookmarked books when [BooksHomeScreen] is in focus
      */
     fun syncBookmarkedBooksInBookHomeScreen() = viewModelScope.launch {
-        val bookmarkedIds = bookmarkRepository.getAllBookmarks()
-            .map { bookmarkedBooks ->
-                bookmarkedBooks.map { it.id }.toSet()
-            }
-            .first()  // Only the first flow emitted
+        Log.d("Sync_Home_Page", "Syncing function called")
+
+        val bookmarkedIds = withContext(Dispatchers.IO) {
+            bookmarkRepository.getAllBookmarks()
+                .map { bookmarkedBooks ->
+                    bookmarkedBooks.map { it.id }.toSet()
+                }
+                .first()  // Only the first flow emitted
+        }
 
         _booksState.update { currentState ->
             if (currentState is BooksViewState.Success) {

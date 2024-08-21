@@ -10,19 +10,19 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import org.kamilimu.books.R
-import org.kamilimu.books.viewbooks.domain.model.Book
-import org.kamilimu.books.util.components.BookCard
-import org.kamilimu.books.util.components.ErrorScreen
-import org.kamilimu.books.util.components.LoadingScreen
 import org.kamilimu.books.util.ScreenNames
+import org.kamilimu.books.util.components.BookCard
 import org.kamilimu.books.util.components.BooksBottomBar
 import org.kamilimu.books.util.components.BooksTopBar
+import org.kamilimu.books.util.components.ErrorScreen
+import org.kamilimu.books.util.components.LoadingScreen
+import org.kamilimu.books.viewbooks.domain.model.Book
 
 @Composable
 fun BooksHomeScreen(
@@ -33,13 +33,16 @@ fun BooksHomeScreen(
     navController: NavHostController,
     onFavouriteClicked: (Book) -> Unit
 ) {
-    val backStackEntry by navController.currentBackStackEntryAsState()
-    LaunchedEffect(backStackEntry) {
-        onScreenInFocus()
+    val rememberedCurrentScreen by rememberUpdatedState(currentScreen)
+
+    LaunchedEffect(rememberedCurrentScreen) {
+        if (rememberedCurrentScreen == ScreenNames.HomeScreen)
+            onScreenInFocus()
     }
+
     Scaffold(
         modifier = modifier,
-        topBar  = {
+        topBar = {
             BooksTopBar(title = currentScreen.title)
         },
         bottomBar = {
@@ -64,12 +67,14 @@ fun BooksHomeScreen(
                 is BooksViewState.Loading -> {
                     LoadingScreen()
                 }
+
                 is BooksViewState.Failure -> {
                     ErrorScreen(
                         message = booksUiState.message,
                         modifier = Modifier.fillMaxSize()
                     )
                 }
+
                 is BooksViewState.Success -> {
                     LazyColumn() {
                         items(booksUiState.books) { book ->
