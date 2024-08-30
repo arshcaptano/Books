@@ -80,7 +80,6 @@ fun BooksHomeScreen(
                         items(booksUiState.books) { book ->
                             BookCard(
                                 book = book,
-                                navController = navController,
                                 onFavouriteClicked = { onFavouriteClicked(book) },
                                 onCardClicked = {},
                                 modifier = Modifier

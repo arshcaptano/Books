@@ -1,11 +1,17 @@
 package org.kamilimu.books.viewbooks.presentation.books_screen
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -18,6 +24,8 @@ import androidx.navigation.navArgument
 import org.kamilimu.books.bookmarks.presentation.bookmarkScreen.BookmarkViewModel
 import org.kamilimu.books.bookmarks.presentation.bookmarkScreen.FavouritesScreen
 import org.kamilimu.books.util.ScreenNames
+import org.kamilimu.books.util.components.LoadingScreen
+import org.kamilimu.books.viewbooks.domain.model.Book
 
 
 /**
@@ -79,12 +87,31 @@ fun BooksScreen(
             arguments = listOf(navArgument("bookId") { type = NavType.IntType })
         ) { backStackEntry ->
             val bookId = backStackEntry.arguments?.getInt("bookId")
-            BookDetailsScreen(
-                navController = navController,
-                getBookDetails = bookmarksViewModel::getBookmarkById,
-                bookId = bookId!!,
-                modifier = Modifier.fillMaxSize()
-            )
+            var book by remember { mutableStateOf<Book?>(null) }
+            var context = LocalContext.current
+
+            LaunchedEffect(bookId) {
+                book = bookId?.let { bookmarksViewModel.getBookmarkById(it) }
+            }
+
+            if (book != null) {
+                BookDetailsScreen(
+                    navController = navController,
+                    book = book!!,
+                    onFavouriteClicked = {
+                        book?.let { bookmarksViewModel.onDeleteBookmark(it) }
+                        Toast.makeText(
+                            context,
+                            "Bookmark Deleted",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        navController.navigateUp()
+                    },
+                    modifier = Modifier.fillMaxSize()
+                )
+            } else {
+                LoadingScreen()
+            }
         }
     }
 }
