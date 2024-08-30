@@ -41,7 +41,10 @@ fun FavouritesScreen(
                     navController.navigate(ScreenNames.HomeScreen.name)
                 },
                 onFavoritesClicked = {
-                    navController.navigate(ScreenNames.FavouritesScreen.name)
+                    if (currentScreen == ScreenNames.FavouritesScreen)
+                        navController.navigate(ScreenNames.FavouritesScreen.name) {
+                            launchSingleTop = true
+                        }
                 }
             )
         }

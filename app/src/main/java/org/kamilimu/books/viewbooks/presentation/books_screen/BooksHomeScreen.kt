@@ -49,7 +49,10 @@ fun BooksHomeScreen(
             BooksBottomBar(
                 currentScreen = currentScreen,
                 onHomeClicked = {
-                    navController.navigate(ScreenNames.HomeScreen.name)
+                    if (currentScreen == ScreenNames.HomeScreen)
+                        navController.navigate(ScreenNames.HomeScreen.name) {
+                            launchSingleTop = true
+                        }
                 },
                 onFavoritesClicked = {
                     navController.navigate(ScreenNames.FavouritesScreen.name)

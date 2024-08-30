@@ -88,7 +88,7 @@ fun BooksScreen(
         ) { backStackEntry ->
             val bookId = backStackEntry.arguments?.getInt("bookId")
             var book by remember { mutableStateOf<Book?>(null) }
-            var context = LocalContext.current
+            val context = LocalContext.current
 
             LaunchedEffect(bookId) {
                 book = bookId?.let { bookmarksViewModel.getBookmarkById(it) }
