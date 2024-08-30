@@ -9,10 +9,12 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import org.kamilimu.books.bookmarks.presentation.bookmarkScreen.BookmarkViewModel
 import org.kamilimu.books.bookmarks.presentation.bookmarkScreen.FavouritesScreen
 import org.kamilimu.books.util.ScreenNames
@@ -35,9 +37,12 @@ fun BooksScreen(
     val bookmarksUiState by bookmarksViewModel.bookmarkState.collectAsStateWithLifecycle()
 
     val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentScreen = ScreenNames.valueOf(
-        backStackEntry?.destination?.route ?: ScreenNames.HomeScreen.name
-    )
+    val currentScreen = when {
+        backStackEntry?.destination?.route == ScreenNames.HomeScreen.name -> ScreenNames.HomeScreen
+        backStackEntry?.destination?.route == ScreenNames.FavouritesScreen.name -> ScreenNames.FavouritesScreen
+        backStackEntry?.destination?.route?.startsWith("bookDetails/") == true -> ScreenNames.BookDetailsScreen
+        else -> ScreenNames.HomeScreen
+    }
 
     NavHost(
         navController = navController,
@@ -69,11 +74,16 @@ fun BooksScreen(
             )
         }
 
-        composable(route = ScreenNames.BookDetailsScreen.name) {
+        composable(
+            route = "bookDetails/{bookId}",
+            arguments = listOf(navArgument("bookId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val bookId = backStackEntry.arguments?.getInt("bookId")
             BookDetailsScreen(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .wrapContentSize(Alignment.Center)
+                navController = navController,
+                getBookDetails = bookmarksViewModel::getBookmarkById,
+                bookId = bookId!!,
+                modifier = Modifier.fillMaxSize()
             )
         }
     }
