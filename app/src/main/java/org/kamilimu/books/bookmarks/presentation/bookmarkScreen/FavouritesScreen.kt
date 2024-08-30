@@ -64,12 +64,14 @@ fun FavouritesScreen(
                         items(bookmarksUiState.books) { book ->
                             BookCard(
                                 book = book,
-                                navController = navController,
                                 onFavouriteClicked = {
                                     if (book.isBookmarked)
                                         onRemoveBookmark(book) else onAddBookmark(book)
                                 },
-                                onCardClicked = {},
+                                onCardClicked = {
+                                    val route = "bookDetails/${book.id}"
+                                    navController.navigate(route)
+                                },
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .padding(dimensionResource(R.dimen.padding_medium))

@@ -3,11 +3,13 @@ package org.kamilimu.books.bookmarks.presentation.bookmarkScreen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.kamilimu.books.bookmarks.domain.repository.BookmarkRepository
 import org.kamilimu.books.viewbooks.domain.model.Book
 import org.kamilimu.books.viewbooks.presentation.books_screen.BooksViewState
@@ -60,7 +62,9 @@ class BookmarkViewModel @Inject constructor(
     /**
      * Retrieves a specific book from the bookmarks stored in the local database
      */
-    fun getBookmarkById(bookId: Int) = viewModelScope.launch {
-        bookmarkRepository.getBookmarkById(bookId)
+    suspend fun getBookmarkById(bookId: Int): Book {
+        return withContext(Dispatchers.IO) {
+            bookmarkRepository.getBookmarkById(bookId)
+        }
     }
 }
