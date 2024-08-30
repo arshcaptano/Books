@@ -23,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import org.kamilimu.books.R
 import org.kamilimu.books.ui.theme.BooksTheme
 import org.kamilimu.books.viewbooks.domain.model.Book
@@ -32,7 +31,6 @@ import org.kamilimu.books.viewbooks.domain.model.Person
 @Composable
 fun BookCard(
     book: Book,
-    navController: NavHostController,
     onFavouriteClicked: () -> Unit,
     onCardClicked: () -> Unit,
     modifier: Modifier = Modifier
@@ -41,7 +39,7 @@ fun BookCard(
         title = book.title,
         subjects = book.subjects,
         authors = book.authors,
-        onCardClicked = { /*TODO*/ },
+        onCardClicked = onCardClicked,
         isBookmarked = book.isBookmarked,
         onFavouriteClicked = onFavouriteClicked,
         modifier = modifier
