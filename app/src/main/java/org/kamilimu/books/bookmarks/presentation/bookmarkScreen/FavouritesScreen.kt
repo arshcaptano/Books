@@ -72,7 +72,7 @@ fun FavouritesScreen(
                                         onRemoveBookmark(book) else onAddBookmark(book)
                                 },
                                 onCardClicked = {
-                                    val route = "bookDetails/${book.id}"
+                                    val route = "bookmarkDetails/${book.id}"
                                     navController.navigate(route)
                                 },
                                 modifier = Modifier

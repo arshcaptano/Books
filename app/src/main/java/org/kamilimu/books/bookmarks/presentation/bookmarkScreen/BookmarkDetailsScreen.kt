@@ -1,4 +1,4 @@
-package org.kamilimu.books.viewbooks.presentation.books_screen
+package org.kamilimu.books.bookmarks.presentation.bookmarkScreen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,7 +41,7 @@ import org.kamilimu.books.viewbooks.domain.model.Person
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BookDetailsScreen(
+fun BookmarkDetailsScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     book: Book,

@@ -21,6 +21,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import org.kamilimu.books.bookmarks.presentation.bookmarkScreen.BookmarkDetailsScreen
 import org.kamilimu.books.bookmarks.presentation.bookmarkScreen.BookmarkViewModel
 import org.kamilimu.books.bookmarks.presentation.bookmarkScreen.FavouritesScreen
 import org.kamilimu.books.util.ScreenNames
@@ -83,7 +84,7 @@ fun BooksScreen(
         }
 
         composable(
-            route = "bookDetails/{bookId}",
+            route = "bookmarkDetails/{bookId}",
             arguments = listOf(navArgument("bookId") { type = NavType.IntType })
         ) { backStackEntry ->
             val bookId = backStackEntry.arguments?.getInt("bookId")
@@ -95,7 +96,7 @@ fun BooksScreen(
             }
 
             if (book != null) {
-                BookDetailsScreen(
+                BookmarkDetailsScreen(
                     navController = navController,
                     book = book!!,
                     onFavouriteClicked = {
