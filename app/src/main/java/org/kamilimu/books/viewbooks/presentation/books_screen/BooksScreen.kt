@@ -43,12 +43,14 @@ fun BooksScreen(
     navController: NavHostController = rememberNavController()
 ) {
     val booksUiState by booksViewModel.booksState.collectAsStateWithLifecycle()
+    val bookDetailsState by booksViewModel.bookDetails.collectAsStateWithLifecycle()
     val bookmarksUiState by bookmarksViewModel.bookmarkState.collectAsStateWithLifecycle()
 
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen = when {
         backStackEntry?.destination?.route == ScreenNames.HomeScreen.name -> ScreenNames.HomeScreen
         backStackEntry?.destination?.route == ScreenNames.FavouritesScreen.name -> ScreenNames.FavouritesScreen
+        backStackEntry?.destination?.route == ScreenNames.BookDetailsScreen.name -> ScreenNames.BookDetailsScreen
         backStackEntry?.destination?.route?.startsWith("bookDetails/") == true -> ScreenNames.BookDetailsScreen
         else -> ScreenNames.HomeScreen
     }
@@ -63,10 +65,21 @@ fun BooksScreen(
                 currentScreen = currentScreen,
                 navController = navController,
                 onFavouriteClicked = booksViewModel::onFavouriteClicked,
+                onCardClicked = booksViewModel::onBookCardClicked,
                 onScreenInFocus = booksViewModel::syncBookmarkedBooksInBookHomeScreen,
                 modifier = Modifier
                     .fillMaxSize()
                     .wrapContentSize(Alignment.Center)
+            )
+        }
+
+        composable(route = ScreenNames.BookDetailsScreen.name) {
+            BookDetailsScreen(
+                navController = navController,
+                bookDetailsState = bookDetailsState,
+                onFavouriteClicked = booksViewModel::onFavouriteClicked,
+                updateBookState = booksViewModel::updateBookInBookDetailsScreen,
+                modifier = Modifier.fillMaxSize()
             )
         }
 

@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class BookRepositoryImpl @Inject constructor(
     private val bookApiService: BookApiService
-): BookRepository {
+) : BookRepository {
     override suspend fun getBooks(): Either<NetworkError, BookData> {
         return Either.catch {
             bookApiService.getBooks()

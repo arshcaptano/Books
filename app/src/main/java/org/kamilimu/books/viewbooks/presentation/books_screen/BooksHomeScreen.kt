@@ -31,7 +31,8 @@ fun BooksHomeScreen(
     currentScreen: ScreenNames,
     onScreenInFocus: () -> Unit,
     navController: NavHostController,
-    onFavouriteClicked: (Book) -> Unit
+    onFavouriteClicked: (Book) -> Unit,
+    onCardClicked: (Int) -> Unit
 ) {
     val rememberedCurrentScreen by rememberUpdatedState(currentScreen)
 
@@ -84,7 +85,10 @@ fun BooksHomeScreen(
                             BookCard(
                                 book = book,
                                 onFavouriteClicked = { onFavouriteClicked(book) },
-                                onCardClicked = {},
+                                onCardClicked = {
+                                    onCardClicked(book.id)
+                                    navController.navigate(ScreenNames.BookDetailsScreen.name)
+                                },
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(dimensionResource(R.dimen.padding_medium))

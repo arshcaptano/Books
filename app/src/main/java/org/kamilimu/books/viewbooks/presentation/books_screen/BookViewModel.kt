@@ -1,9 +1,12 @@
 package org.kamilimu.books.viewbooks.presentation.books_screen
 
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,10 +25,14 @@ import javax.inject.Inject
 @HiltViewModel
 class BookViewModel @Inject constructor(
     private val bookRepository: BookRepository,
-    private val bookmarkRepository: BookmarkRepository
+    private val bookmarkRepository: BookmarkRepository,
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
     private val _booksState = MutableStateFlow<BooksViewState>(BooksViewState.Loading)
     val booksState: StateFlow<BooksViewState> = _booksState.asStateFlow()
+
+    private val _bookDetails = MutableStateFlow<BooksViewState>(BooksViewState.Loading)
+    val bookDetails: StateFlow<BooksViewState> = _bookDetails.asStateFlow()
 
     init {
         getAllBooks()
@@ -74,9 +81,23 @@ class BookViewModel @Inject constructor(
         if (book.isBookmarked) {
             bookmarkRepository.deleteBookmark(book)
             updateBookState(book.copy(isBookmarked = false))
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    context,
+                    "Book removed from your Bookmarks",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         } else {
             bookmarkRepository.addNewBookmark(book)
             updateBookState(book.copy(isBookmarked = true))
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    context,
+                    "Book added to your Bookmarks",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 
@@ -119,6 +140,45 @@ class BookViewModel @Inject constructor(
                         book.copy(isBookmarked = bookmarkedIds.contains(book.id))
                     }
                 )
+            } else {
+                currentState
+            }
+        }
+    }
+
+    fun onBookCardClicked(bookId: Int) = viewModelScope.launch {
+        _bookDetails.update { BooksViewState.Loading }
+        bookRepository.getBookById(bookId)
+            .onRight { bookRemote ->
+                val bookmark: Book? = try {
+                    bookmarkRepository.getBookmarkById(bookId)
+                } catch (e: Exception) {
+                    null
+                }
+
+                _bookDetails.update {
+                    BooksViewState.Success(
+                        listOf(
+                            if (bookmark == null)
+                                bookRemote.toBook()
+                            else
+                                bookRemote.toBook().copy(isBookmarked = true)
+                        )
+                    )
+                }
+            }
+            .onLeft { networkError ->
+                _bookDetails.update {
+                    BooksViewState.Failure(networkError.error.message)
+                }
+            }
+    }
+
+    fun updateBookInBookDetailsScreen(book: Book) = viewModelScope.launch {
+        val updatedBook = book.copy(isBookmarked = !book.isBookmarked)
+        _bookDetails.update { currentState ->
+            if (currentState is BooksViewState.Success) {
+                BooksViewState.Success(listOf(updatedBook))
             } else {
                 currentState
             }
