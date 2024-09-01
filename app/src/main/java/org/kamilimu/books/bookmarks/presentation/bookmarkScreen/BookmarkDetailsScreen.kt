@@ -12,18 +12,15 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,10 +33,10 @@ import coil.compose.AsyncImage
 import org.kamilimu.books.R
 import org.kamilimu.books.ui.theme.BooksTheme
 import org.kamilimu.books.util.components.BookCardItem
+import org.kamilimu.books.util.components.DetailsScreenAppBar
 import org.kamilimu.books.viewbooks.domain.model.Book
 import org.kamilimu.books.viewbooks.domain.model.Person
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookmarkDetailsScreen(
     modifier: Modifier = Modifier,
@@ -48,21 +45,7 @@ fun BookmarkDetailsScreen(
     onFavouriteClicked: (Int) -> Unit
 ) {
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {},
-                navigationIcon = {
-                    IconButton(
-                        onClick = { navController.navigateUp() }
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = null
-                        )
-                    }
-                }
-            )
-        },
+        topBar = { DetailsScreenAppBar(navController = navController) },
         modifier = modifier
     ) { innerPadding ->
         BookDetailsContent(

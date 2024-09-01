@@ -37,7 +37,6 @@ fun BookCard(
 ) {
     BookCardContent(
         title = book.title,
-        subjects = book.subjects,
         authors = book.authors,
         onCardClicked = onCardClicked,
         isBookmarked = book.isBookmarked,
@@ -50,7 +49,6 @@ fun BookCard(
 @Composable
 fun BookCardContent(
     title: String,
-    subjects: List<String>,
     authors: List<Person>,
     onCardClicked: () -> Unit,
     isBookmarked: Boolean,
@@ -98,12 +96,6 @@ fun BookCardContent(
                 modifier = Modifier
                     .fillMaxSize()
             )
-            BookCardItem(
-                items = subjects,
-                itemLabel = "Subject",
-                modifier = Modifier
-                    .fillMaxSize()
-            )
         }
     }
 }
@@ -115,7 +107,6 @@ private fun BookCardContentPreviewLight() {
     BooksTheme(darkTheme = false) {
         BookCardContent(
             title = "The Alchemist",
-            subjects = listOf("History", "Philosophy"),
             authors = listOf(Person(name = "Paulo Coelho", birthYear = 1950, deathYear = null)),
             onCardClicked = {},
             isBookmarked = true,
@@ -131,7 +122,6 @@ private fun BookCardContentPreviewDark() {
     BooksTheme(darkTheme = true) {
         BookCardContent(
             title = "The Alchemist",
-            subjects = listOf("History", "Philosophy"),
             authors = listOf(Person(name = "Paulo Coelho", birthYear = 1950, deathYear = null)),
             onCardClicked = {},
             isBookmarked = false,
