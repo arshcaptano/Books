@@ -37,7 +37,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.google.gson.Gson
 import org.kamilimu.books.screens.Nav
-import org.kamilimu.books.screens.bookmarks.BookmarksScreen
+import org.kamilimu.books.screens.saved_books.SavedBooksScreen
 import org.kamilimu.books.screens.books.BookDetailScreen
 import org.kamilimu.books.screens.books.BooksScreen
 import org.kamilimu.books.screens.books.models.Book
@@ -76,7 +76,7 @@ class MainActivity : ComponentActivity() {
                                         }
                                     ) {
                                         Image(
-                                            painter = painterResource(id = R.drawable.icon_bookmark),
+                                            painter = painterResource(id = R.drawable.ic_bookmark_active),
                                             contentDescription = stringResource(id = R.string.bookmarks)
                                         )
 
@@ -158,7 +158,7 @@ class MainActivity : ComponentActivity() {
                                 composable(
                                     route = Nav.Bookmarks.route,
                                 ) {
-                                    BookmarksScreen()
+                                    SavedBooksScreen()
                                 }
                             }
                         }

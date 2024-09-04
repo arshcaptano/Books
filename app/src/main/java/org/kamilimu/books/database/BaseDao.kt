@@ -2,6 +2,7 @@ package org.kamilimu.books.database
 
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Update
 
@@ -10,7 +11,7 @@ import androidx.room.Update
 interface BaseDao<T> {
     /**
      * Insert single value on database*/
-    @Insert(onConflict = REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(value: T)
 
     /**

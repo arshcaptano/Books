@@ -1,4 +1,4 @@
-package org.kamilimu.books.screens.bookmarks
+package org.kamilimu.books.screens.saved_books
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,7 +15,7 @@ import org.kamilimu.books.shared.components.LottieView
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun BookmarksScreen(vm: BookmarksViewModel = koinViewModel()) {
+fun SavedBooksScreen(vm: BooksViewModel = koinViewModel()) {
     Box {
         Text("Bookmarks")
 

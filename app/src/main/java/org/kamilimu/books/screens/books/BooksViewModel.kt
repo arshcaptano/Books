@@ -7,8 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.kamilimu.books.database.AppDatabase
-import org.kamilimu.books.screens.bookmarks.db.BookEntity
-import org.kamilimu.books.screens.books.models.Book
+import org.kamilimu.books.screens.books.db.BookEntity
 
 class BooksViewModel(
     private val repository: BooksRepository,
@@ -18,24 +17,31 @@ class BooksViewModel(
     val screenState: StateFlow<BooksScreenState> = _screenState.asStateFlow()
 
     init {
-        getBooks()
+        fetchBooks()
+
+        observeBooks()
     }
 
-    private fun getBooks() {
+    private fun fetchBooks() {
         _screenState.value = _screenState.value.copy(isLoading = true)
 
         viewModelScope.launch {
             repository.getBooks(
                 onSuccess = {
-                    _screenState.value = _screenState.value.copy(isLoading = false)
-
-                    _screenState.value = _screenState.value.copy(books = it)
-
-                    val list = it.map { book -> BookEntity(id = book.id, title = book.title) }
-
-                    viewModelScope.launch {
-                        database.getBookDao().insert(list)
+                    it.map { book ->
+                        viewModelScope.launch {
+                            database.getBookDao().insert(
+                                BookEntity(
+                                    id = book.id,
+                                    title = book.title,
+                                    authors = book.authors,
+                                    subjects = book.subjects
+                                )
+                            )
+                        }
                     }
+
+                    _screenState.value = _screenState.value.copy(isLoading = false)
                 },
                 onFail = {
                     _screenState.value = _screenState.value.copy(isLoading = false)
@@ -43,6 +49,20 @@ class BooksViewModel(
                     _screenState.value = _screenState.value.copy(errorMessage = it)
                 }
             )
+        }
+    }
+
+    private fun observeBooks() {
+        viewModelScope.launch {
+            database.getBookDao().observeBooks().collect { bookEntities ->
+                _screenState.value = _screenState.value.copy(books = bookEntities)
+            }
+        }
+    }
+
+    fun saveBook(bookId: Int) {
+        viewModelScope.launch {
+            database.getBookDao().saveBook(bookId)
         }
     }
 }

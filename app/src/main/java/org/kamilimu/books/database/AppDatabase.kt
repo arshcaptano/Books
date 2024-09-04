@@ -4,12 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import org.kamilimu.books.screens.bookmarks.db.BookDao
-import org.kamilimu.books.screens.bookmarks.db.BookEntity
+import org.kamilimu.books.screens.books.db.BookDao
+import org.kamilimu.books.screens.books.db.BookEntity
 
 const val DbName = "books_db"
 
@@ -17,9 +18,10 @@ const val DbName = "books_db"
     entities = [
         BookEntity::class,
     ],
-    version = 1,
+    version = 4,
     exportSchema = false
 )
+@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     companion object {
         /**
@@ -46,11 +48,10 @@ abstract class AppDatabase : RoomDatabase() {
 
 /**
  * Migration(1, 2) means from database version 1 to 2*/
-val MIGRATION_1_2: Migration = object : Migration(1, 2) {
-    override fun migrate(database: SupportSQLiteDatabase) {
-        // We can perform actions like
-        /*database.execSQL("CREATE TABLE `Fruit` (`id` INTEGER, `name` TEXT, " +
-                "PRIMARY KEY(`id`))")*/
+val MIGRATION_1_2 = object : Migration(1, 2) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        // Step 1: Add the new column with a default value of `false` (0 in SQLite)
+        db.execSQL("ALTER TABLE books ADD COLUMN isSaved INTEGER NOT NULL DEFAULT 0")
     }
 }
 

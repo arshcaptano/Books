@@ -12,5 +12,6 @@ data class Book(
     val languages: List<String> = emptyList(),
     val copyright: Boolean = false,
     val mediaType: String = "",
-    val downloadCount: Int = 0
+    val downloadCount: Int = 0,
+    val isSaved: Boolean = false
 )

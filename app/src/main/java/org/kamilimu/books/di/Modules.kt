@@ -8,7 +8,6 @@ import org.kamilimu.books.database.provideDatabase
 import org.kamilimu.books.network.provideApi
 import org.kamilimu.books.network.provideOkHttpClient
 import org.kamilimu.books.network.provideRetrofit
-import org.kamilimu.books.screens.bookmarks.BookmarksViewModel
 import org.kamilimu.books.screens.books.BooksRepository
 import org.kamilimu.books.screens.books.BooksViewModel
 import org.koin.android.ext.koin.androidContext
@@ -35,5 +34,5 @@ val booksModule: Module = module {
 }
 
 val bookmarksModule: Module = module {
-    viewModel { BookmarksViewModel(get()) }
+    viewModel { BooksViewModel(get(), get()) }
 }
