@@ -1,4 +1,4 @@
-package org.kamilimu.books.database
+package org.kamilimu.books.data.database
 
 import androidx.room.Delete
 import androidx.room.Insert

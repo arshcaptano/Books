@@ -17,6 +17,7 @@ retrofit = "2.11.0"
 pagingCommonAndroid = "3.3.1"
 navigationCompose = "2.7.7"
 roomKtx = "2.6.1"
+dataStore = "1.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -43,6 +44,7 @@ androidx-paging-common-android = { group = "androidx.paging", name = "paging-com
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomKtx" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
+androidx-datastore = {module = "androidx.datastore:datastore-preferences", version.ref = "dataStore"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

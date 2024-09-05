@@ -97,4 +97,7 @@ dependencies {
     //Room
     implementation(libs.androidx.room.ktx)
     kapt(libs.androidx.room.compiler) // KAPT/KSP is a powerful and yet simple API for parsing Kotlin annotations.
+
+    // DataStore preferences
+    implementation(libs.androidx.datastore)
 }

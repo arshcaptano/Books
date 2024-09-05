@@ -1,4 +1,4 @@
-package org.kamilimu.books.database
+package org.kamilimu.books.data.database
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson

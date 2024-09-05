@@ -17,7 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.kamilimu.books.screens.books.BooksViewModel
 import org.kamilimu.books.screens.books.db.BookEntity
-import org.kamilimu.books.shared.components.BooksContentScreen
+import org.kamilimu.books.screens.books.BooksContentScreen
 import org.kamilimu.books.shared.components.LottieView
 import org.koin.androidx.compose.koinViewModel
 

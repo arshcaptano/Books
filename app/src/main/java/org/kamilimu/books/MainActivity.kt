@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import org.kamilimu.books.screens.books.db.BookEntity
-import org.kamilimu.books.shared.components.BooksContentScreen
+import org.kamilimu.books.screens.books.BooksContentScreen
 import org.kamilimu.books.theme.BooksTheme
 
 class MainActivity : ComponentActivity() {

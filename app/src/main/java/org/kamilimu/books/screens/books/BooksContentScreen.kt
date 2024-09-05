@@ -1,4 +1,4 @@
-package org.kamilimu.books.shared.components
+package org.kamilimu.books.screens.books
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
@@ -131,7 +131,7 @@ fun BookItem(
     showSystemUi = true
 )
 @Composable
-fun BooksScreenPreview() {
+fun BooksContentScreenPreview() {
     val mockBooks = listOf(
         BookEntity(1, "Sample Book 1", false, listOf(), listOf()),
         BookEntity(2, "Sample Book 2", true, listOf(), listOf())
@@ -147,7 +147,7 @@ fun BooksScreenPreview() {
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
-fun BooksScreenDarkPreview() {
+fun BooksContentScreenDarkPreview() {
     val mockBooks = listOf(
         BookEntity(1, "Sample Book 1", false, listOf(), listOf()),
         BookEntity(2, "Sample Book 2", true, listOf(), listOf())

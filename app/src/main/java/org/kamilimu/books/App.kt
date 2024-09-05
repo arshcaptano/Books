@@ -1,8 +1,10 @@
 package org.kamilimu.books
 
 import android.app.Application
+import org.kamilimu.books.di.SettingsViewModel
 import org.kamilimu.books.di.savedBooksModule
 import org.kamilimu.books.di.booksModule
+import org.kamilimu.books.di.dataStoreModule
 import org.kamilimu.books.di.dbModule
 import org.kamilimu.books.di.networkModule
 import org.koin.android.ext.koin.androidContext
@@ -16,7 +18,7 @@ class App : Application() {
         startKoin {
             androidLogger()
             androidContext(this@App)
-            modules(networkModule + dbModule + booksModule + savedBooksModule)
+            modules(networkModule + dbModule + dataStoreModule + booksModule + savedBooksModule + SettingsViewModel)
         }
     }
 }

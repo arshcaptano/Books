@@ -6,14 +6,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.kamilimu.books.database.AppDatabase
+import org.kamilimu.books.data.database.AppDatabase
 import org.kamilimu.books.screens.books.db.BookEntity
 
 open class BooksViewModel(
     private val repository: BooksRepository,
     private val database: AppDatabase
 ) : ViewModel() {
-    val _screenState = MutableStateFlow(BooksScreenState())
+    private val _screenState = MutableStateFlow(BooksScreenState())
     val screenState: StateFlow<BooksScreenState> = _screenState.asStateFlow()
 
     internal fun fetchBooks() {

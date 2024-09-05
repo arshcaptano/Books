@@ -1,8 +1,10 @@
 package org.kamilimu.books
 
 import org.junit.Test
+import org.kamilimu.books.di.SettingsViewModel
 import org.kamilimu.books.di.savedBooksModule
 import org.kamilimu.books.di.booksModule
+import org.kamilimu.books.di.dataStoreModule
 import org.kamilimu.books.di.dbModule
 import org.kamilimu.books.di.networkModule
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -22,6 +24,11 @@ class CheckModulesTest : KoinTest {
     fun checkDbModule() {
         dbModule.verify()
     }
+    @OptIn(KoinExperimentalAPI::class)
+    @Test
+    fun checkDataStoreModule() {
+        dataStoreModule.verify()
+    }
 
     @OptIn(KoinExperimentalAPI::class)
     @Test
@@ -33,5 +40,11 @@ class CheckModulesTest : KoinTest {
     @Test
     fun checkSavedBooksModule() {
         savedBooksModule.verify()
+    }
+
+    @OptIn(KoinExperimentalAPI::class)
+    @Test
+    fun checkSettingsViewModel() {
+        SettingsViewModel.verify()
     }
 }
