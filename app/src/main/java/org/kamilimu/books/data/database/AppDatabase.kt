@@ -21,7 +21,7 @@ const val DbName = "books_db"
     entities = [
         BookEntity::class,
     ],
-    version = 6,
+    version = 1,
     exportSchema = true,
 //    autoMigrations = [
 //        AutoMigration(

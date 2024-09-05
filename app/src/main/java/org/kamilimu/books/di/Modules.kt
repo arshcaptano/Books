@@ -37,7 +37,6 @@ val dbModule: Module = module {
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 val dataStoreModule = module {
-    // Provide DataStore<Preferences>
     single<DataStore<Preferences>> {
         androidContext().dataStore
     }
