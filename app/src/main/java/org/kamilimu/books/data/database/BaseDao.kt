@@ -11,7 +11,7 @@ import androidx.room.Update
 interface BaseDao<T> {
     /**
      * Insert single value on database*/
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insert(value: T)
 
     /**

@@ -155,3 +155,15 @@ fun BooksContentScreenDarkPreview() {
 
     BooksContentScreen(books = mockBooks, onItemSelect = {}, onSaveBook = {})
 }
+
+@Preview(
+    name = "Books Screen Light Mode",
+    showBackground = true,
+    showSystemUi = true
+)
+@Composable
+fun BookItemScreenPreview() {
+    val mockBook =   BookEntity(1, "Sample Book 1", false, listOf(), listOf())
+
+    BookItem(book = mockBook, onItemSelect = {}, onSaveBook = {})
+}

@@ -3,6 +3,7 @@ package org.kamilimu.books.data.database
 import android.content.Context
 import androidx.room.AutoMigration
 import androidx.room.Database
+import androidx.room.DeleteColumn
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
@@ -20,12 +21,12 @@ const val DbName = "books_db"
     entities = [
         BookEntity::class,
     ],
-    version = 4,
+    version = 6,
     exportSchema = true,
 //    autoMigrations = [
 //        AutoMigration(
-//            from = 4,
-//            to = 5,
+//            from = 5,
+//            to = 6,
 //            spec = BookAutoMigrationSpec::class
 //        )
 //    ]
@@ -38,13 +39,7 @@ abstract class AppDatabase : RoomDatabase() {
          * It will be executed only at the time after database is created
          * [database] is an instance for AppDatabase*/
         fun onCreate(scope: CoroutineScope, database: AppDatabase?) {
-            val list = listOf(
-                BookEntity(id = 1, title = "Book A"),
-                BookEntity(id = 2, title = "Book B")
-            )
-            scope.launch {
-                database?.getBookDao()?.insert(list)
-            }
+            // Setup your database
         }
     }
 
@@ -55,12 +50,21 @@ abstract class AppDatabase : RoomDatabase() {
     }
 }
 
-/**
- * Migration(1, 2) means from database version 1 to 2*/
-val MIGRATION_1_2 = object : Migration(1, 2) {
+val MIGRATION_0_1 = object : Migration(0, 1) {
     override fun migrate(db: SupportSQLiteDatabase) {
-        // Step 1: Add the new column with a default value of `false` (0 in SQLite)
         db.execSQL("ALTER TABLE books ADD COLUMN isSaved INTEGER NOT NULL DEFAULT 0")
+    }
+}
+
+val MIGRATION_3_4 = object : Migration(3, 4) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("ALTER TABLE books ADD COLUMN age INTEGER NOT NULL DEFAULT 3")
+    }
+}
+
+val MIGRATION_4_5 = object : Migration(4, 5) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("ALTER TABLE books ADD COLUMN year INTEGER NOT NULL DEFAULT 3")
     }
 }
 
@@ -74,7 +78,6 @@ fun provideDatabase(context: Context, scope: CoroutineScope): AppDatabase {
                 AppDatabase.onCreate(scope = scope, database = database)
             }
         })
-        .addMigrations(MIGRATION_1_2)
         .fallbackToDestructiveMigration()
         .build()
     return database
@@ -84,9 +87,20 @@ fun provideBookDao(appDatabase: AppDatabase): BookDao {
     return appDatabase.getBookDao()
 }
 
+@DeleteColumn.Entries(
+    DeleteColumn(
+        tableName = "books",
+        columnName = "age"
+    ),
+    DeleteColumn(
+        tableName = "books",
+        columnName = "year"
+    )
+)
 class BookAutoMigrationSpec : AutoMigrationSpec {
     override fun onPostMigrate(db: SupportSQLiteDatabase) {
         // Optional: custom logic that runs after the migration
-        db.execSQL("ALTER TABLE books DELETE COLUMN test INTEGER NOT NULL DEFAULT 0")
+        db.execSQL("ALTER TABLE books DROP COLUMN test")
+        db.execSQL("ALTER TABLE books ADD COLUMN test INTEGER DEFAULT 7")
     }
 }

@@ -28,14 +28,13 @@ open class BooksViewModel(
                 onSuccess = {
                     it.map { book ->
                         viewModelScope.launch {
-                            database.getBookDao().insert(
-                                BookEntity(
-                                    id = book.id,
-                                    title = book.title,
-                                    authors = book.authors,
-                                    subjects = book.subjects
-                                )
+                            val bookEntity = BookEntity(
+                                id = book.id,
+                                title = book.title,
+                                authors = book.authors,
+                                subjects = book.subjects
                             )
+                            database.getBookDao().insert(bookEntity)
                         }
                     }
 

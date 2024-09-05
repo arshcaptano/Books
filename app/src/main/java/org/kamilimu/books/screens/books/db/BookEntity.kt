@@ -12,5 +12,6 @@ data class BookEntity(
     val title: String = "",
     val isSaved: Boolean = false,
     val authors: List<Author> = emptyList(),
-    val subjects: List<String> = emptyList()
+    val subjects: List<String> = emptyList(),
+    val test: Int? = 0
 )

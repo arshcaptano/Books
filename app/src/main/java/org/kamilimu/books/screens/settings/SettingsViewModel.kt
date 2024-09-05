@@ -17,7 +17,9 @@ open class SettingsViewModel(private val repository: DataStoreRepository) : View
     }
     internal fun saveTest() {
         viewModelScope.launch {
-            repository.saveToDataStore("q")
+            repository.saveToDataStore("String test value")
+            repository.saveBoolToDataStore(true)
+            repository.saveIntToDataStore(1001)
         }
     }
 
@@ -25,6 +27,14 @@ open class SettingsViewModel(private val repository: DataStoreRepository) : View
         viewModelScope.launch {
             repository.example.collect { value ->
                 _screenState.value = _screenState.value.copy(example = value)
+            }
+
+            repository.exampleBool.collect { value ->
+                _screenState.value = _screenState.value.copy(exampleBool = value)
+            }
+
+            repository.exampleInt.collect { value ->
+                _screenState.value = _screenState.value.copy(exampleInt = value)
             }
         }
     }

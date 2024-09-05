@@ -33,6 +33,11 @@ fun BooksScreen(
 
     if (errorMessage.isEmpty()) {
         Box {
+            BooksContentScreen(
+                books = books,
+                onItemSelect = { onItemSelect.invoke(it) },
+                onSaveBook = { vm.saveBook(bookId = it.id, save = !it.isSaved) }
+            )
             if (isLoading) {
                 LottieView(
                     modifier = Modifier
@@ -41,11 +46,7 @@ fun BooksScreen(
                     animationFile = "loading.json"
                 )
             }
-            BooksContentScreen(
-                books = books,
-                onItemSelect = { onItemSelect.invoke(it) },
-                onSaveBook = { vm.saveBook(it.id, !it.isSaved) }
-            )
+
         }
     } else {
         Box(
