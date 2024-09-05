@@ -1,10 +1,12 @@
 package org.kamilimu.books.database
 
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.room.migration.AutoMigrationSpec
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
@@ -19,7 +21,14 @@ const val DbName = "books_db"
         BookEntity::class,
     ],
     version = 4,
-    exportSchema = false
+    exportSchema = true,
+//    autoMigrations = [
+//        AutoMigration(
+//            from = 4,
+//            to = 5,
+//            spec = BookAutoMigrationSpec::class
+//        )
+//    ]
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
@@ -55,7 +64,6 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
     }
 }
 
-
 fun provideDatabase(context: Context, scope: CoroutineScope): AppDatabase {
     var database: AppDatabase? = null
 
@@ -74,4 +82,11 @@ fun provideDatabase(context: Context, scope: CoroutineScope): AppDatabase {
 
 fun provideBookDao(appDatabase: AppDatabase): BookDao {
     return appDatabase.getBookDao()
+}
+
+class BookAutoMigrationSpec : AutoMigrationSpec {
+    override fun onPostMigrate(db: SupportSQLiteDatabase) {
+        // Optional: custom logic that runs after the migration
+        db.execSQL("ALTER TABLE books DELETE COLUMN test INTEGER NOT NULL DEFAULT 0")
+    }
 }
