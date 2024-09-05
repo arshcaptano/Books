@@ -2,8 +2,10 @@ package org.kamilimu.books.network
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import okhttp3.Dispatcher
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.kamilimu.books.App
 import org.kamilimu.books.baseUrl
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

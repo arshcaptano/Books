@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-kapt")
 }
 
 android {
@@ -17,6 +18,12 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
+        }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments["room.schemaLocation"] = "$projectDir/schemas"
+            }
         }
     }
 
@@ -78,4 +85,19 @@ dependencies {
 
     // Lottie
     implementation(libs.lottie.compose)
+
+    // Navigation
+    implementation(libs.androidx.navigation.compose)
+    /*
+    3rd party navigation libraries
+    https://github.com/adrielcafe/voyager
+    https://github.com/raamcosta/compose-destinations
+     */
+
+    //Room
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler) // KAPT/KSP is a powerful and yet simple API for parsing Kotlin annotations.
+
+    // DataStore preferences
+    implementation(libs.androidx.datastore)
 }
