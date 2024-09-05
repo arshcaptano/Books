@@ -1,7 +1,7 @@
 package org.kamilimu.books
 
 import org.junit.Test
-import org.kamilimu.books.di.bookmarksModule
+import org.kamilimu.books.di.savedBooksModule
 import org.kamilimu.books.di.booksModule
 import org.kamilimu.books.di.dbModule
 import org.kamilimu.books.di.networkModule
@@ -32,6 +32,6 @@ class CheckModulesTest : KoinTest {
     @OptIn(KoinExperimentalAPI::class)
     @Test
     fun checkBookmarksModule() {
-        bookmarksModule.verify()
+        savedBooksModule.verify()
     }
 }

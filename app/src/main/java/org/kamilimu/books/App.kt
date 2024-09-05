@@ -1,7 +1,7 @@
 package org.kamilimu.books
 
 import android.app.Application
-import org.kamilimu.books.di.bookmarksModule
+import org.kamilimu.books.di.savedBooksModule
 import org.kamilimu.books.di.booksModule
 import org.kamilimu.books.di.dbModule
 import org.kamilimu.books.di.networkModule
@@ -16,7 +16,7 @@ class App : Application() {
         startKoin {
             androidLogger()
             androidContext(this@App)
-            modules(networkModule + dbModule + booksModule + bookmarksModule)
+            modules(networkModule + dbModule + booksModule + savedBooksModule)
         }
     }
 }

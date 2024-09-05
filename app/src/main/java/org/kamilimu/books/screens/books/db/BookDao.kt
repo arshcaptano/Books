@@ -16,8 +16,8 @@ interface BookDao : BaseDao<BookEntity> {
     @Query("SELECT * FROM books WHERE id = :bookId")
     fun observeBookById(bookId: Int): Flow<BookEntity?>
 
-    @Query("UPDATE books SET isSaved = 1 WHERE id = :bookId")
-    suspend fun saveBook(bookId: Int)
+    @Query("UPDATE books SET isSaved = :save WHERE id = :bookId")
+    suspend fun saveBook(bookId: Int, save: Boolean)
 
     @Query("DELETE FROM books")
     suspend fun deleteAll()

@@ -9,11 +9,11 @@ import kotlinx.coroutines.launch
 import org.kamilimu.books.database.AppDatabase
 import org.kamilimu.books.screens.books.db.BookEntity
 
-class BooksViewModel(
+open class BooksViewModel(
     private val repository: BooksRepository,
     private val database: AppDatabase
 ) : ViewModel() {
-    private val _screenState = MutableStateFlow(BooksScreenState())
+    val _screenState = MutableStateFlow(BooksScreenState())
     val screenState: StateFlow<BooksScreenState> = _screenState.asStateFlow()
 
     init {
@@ -60,9 +60,9 @@ class BooksViewModel(
         }
     }
 
-    fun saveBook(bookId: Int) {
+    fun saveBook(bookId: Int, save: Boolean) {
         viewModelScope.launch {
-            database.getBookDao().saveBook(bookId)
+            database.getBookDao().saveBook(bookId, save = save)
         }
     }
 }

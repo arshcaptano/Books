@@ -39,7 +39,9 @@ import com.google.gson.Gson
 import org.kamilimu.books.screens.Nav
 import org.kamilimu.books.screens.saved_books.SavedBooksScreen
 import org.kamilimu.books.screens.books.BookDetailScreen
+import org.kamilimu.books.screens.books.BooksContentScreen
 import org.kamilimu.books.screens.books.BooksScreen
+import org.kamilimu.books.screens.books.db.BookEntity
 import org.kamilimu.books.screens.books.models.Book
 import org.kamilimu.books.theme.BooksTheme
 
@@ -61,15 +63,14 @@ class MainActivity : ComponentActivity() {
                                     verticalAlignment = Alignment.CenterVertically,
                                     horizontalArrangement = Arrangement.SpaceBetween
                                 ) {
-                                    Text("Library")
+                                    Text("Books")
 
                                     Spacer(modifier = Modifier.width(32.dp))
 
                                     Surface(
                                         shape = CircleShape,
-                                        color = Color(0x77000000),
                                         modifier = Modifier
-                                            .padding(end = 40.dp)
+                                            .padding(end = 36.dp)
                                             .size(24.dp),
                                         onClick = {
                                             navController.navigate(Nav.Bookmarks.name)
@@ -185,7 +186,12 @@ fun MainPreview() {
             },
             content = { contentPadding ->
                 Column(modifier = Modifier.padding(contentPadding)) {
-                    BooksScreen {}
+                    val mockBooks = listOf(
+                        BookEntity(1, "Sample Book 1", false, listOf(), listOf()),
+                        BookEntity(2, "Sample Book 2", true, listOf(), listOf())
+                    )
+
+                    BooksContentScreen(books = mockBooks, onItemSelect = {}, onSaveBook = {})
                 }
             }
         )

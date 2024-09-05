@@ -33,6 +33,6 @@ val booksModule: Module = module {
     viewModel { BooksViewModel(get(), get()) }
 }
 
-val bookmarksModule: Module = module {
+val savedBooksModule: Module = module {
     viewModel { BooksViewModel(get(), get()) }
 }
