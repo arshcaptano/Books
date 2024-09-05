@@ -1,6 +1,5 @@
 package org.kamilimu.books.data
 
-import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -13,7 +12,7 @@ class DataStoreRepository(private val dataStore: DataStore<Preferences>) {
         val EXAMPLE_KEY = stringPreferencesKey("example_key")
     }
 
-    suspend fun saveToDataStore(context: Context, exampleValue: String) {
+    suspend fun saveToDataStore(exampleValue: String) {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.EXAMPLE_KEY] = exampleValue
         }

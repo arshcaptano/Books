@@ -16,10 +16,11 @@ open class BooksViewModel(
     private val _screenState = MutableStateFlow(BooksScreenState())
     val screenState: StateFlow<BooksScreenState> = _screenState.asStateFlow()
 
-    internal fun fetchBooks() {
-        // Register books observer
+    init{
         observeBooks()
+    }
 
+    internal fun fetchBooks() {
         _screenState.value = _screenState.value.copy(isLoading = true)
 
         viewModelScope.launch {

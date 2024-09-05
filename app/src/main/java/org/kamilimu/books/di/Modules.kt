@@ -3,6 +3,7 @@ package org.kamilimu.books.di
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -33,7 +34,14 @@ val dbModule: Module = module {
     single { provideBookDao(get()) }
 }
 
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+
 val dataStoreModule = module {
+    // Provide DataStore<Preferences>
+    single<DataStore<Preferences>> {
+        androidContext().dataStore
+    }
+
     single { DataStoreRepository(get()) }
     viewModel { SettingsViewModel(get()) }
 }

@@ -12,6 +12,15 @@ open class SettingsViewModel(private val repository: DataStoreRepository) : View
     private val _screenState = MutableStateFlow(SettingsScreenState())
     val screenState: StateFlow<SettingsScreenState> = _screenState.asStateFlow()
 
+    init{
+        observeBooks()
+    }
+    internal fun saveTest() {
+        viewModelScope.launch {
+            repository.saveToDataStore("q")
+        }
+    }
+
     private fun observeBooks() {
         viewModelScope.launch {
             repository.example.collect { value ->
