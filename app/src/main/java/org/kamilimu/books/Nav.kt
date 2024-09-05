@@ -1,7 +1,8 @@
-package org.kamilimu.books.screens
+package org.kamilimu.books
 
 enum class Nav (val route: String) {
     Books("Books"),
     BookDetail("BookDetail"),
-    Bookmarks("Bookmarks")
+    SavedBooks("SavedBooks"),
+    Settings("Settings")
 }

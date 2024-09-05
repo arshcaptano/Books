@@ -31,7 +31,7 @@ class CheckModulesTest : KoinTest {
 
     @OptIn(KoinExperimentalAPI::class)
     @Test
-    fun checkBookmarksModule() {
+    fun checkSavedBooksModule() {
         savedBooksModule.verify()
     }
 }

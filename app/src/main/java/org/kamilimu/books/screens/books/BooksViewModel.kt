@@ -16,13 +16,10 @@ open class BooksViewModel(
     val _screenState = MutableStateFlow(BooksScreenState())
     val screenState: StateFlow<BooksScreenState> = _screenState.asStateFlow()
 
-    init {
-        fetchBooks()
-
+    internal fun fetchBooks() {
+        // Register books observer
         observeBooks()
-    }
 
-    private fun fetchBooks() {
         _screenState.value = _screenState.value.copy(isLoading = true)
 
         viewModelScope.launch {
@@ -60,7 +57,20 @@ open class BooksViewModel(
         }
     }
 
-    fun saveBook(bookId: Int, save: Boolean) {
+    internal fun observeSavedBooks() {
+        viewModelScope.launch {
+            database.getBookDao().observeSavedBooks().collect { bookEntities ->
+                _screenState.value = _screenState.value.copy(books = bookEntities)
+
+                _screenState.value = _screenState.value.copy(isLoading = false)
+
+                if (bookEntities.isEmpty())
+                    _screenState.value = _screenState.value.copy(errorMessage = "No saved books at the moment")
+            }
+        }
+    }
+
+    internal fun saveBook(bookId: Int, save: Boolean) {
         viewModelScope.launch {
             database.getBookDao().saveBook(bookId, save = save)
         }

@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Books</string>
-    <string name="bookmarks">Bookmarks</string>
+    <string name="saved_books">Saved Books</string>
 </resources>

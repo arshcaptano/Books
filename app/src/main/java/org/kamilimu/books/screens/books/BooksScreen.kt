@@ -8,18 +8,21 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.kamilimu.books.R
 import org.kamilimu.books.screens.books.db.BookEntity
+import org.kamilimu.books.shared.components.BooksContentScreen
 import org.kamilimu.books.shared.components.LottieView
 import org.koin.androidx.compose.koinViewModel
 
@@ -42,8 +46,12 @@ fun BooksScreen(
     val errorMessage = screenState.value.errorMessage
     val isLoading = screenState.value.isLoading
 
+    LaunchedEffect(Unit) {
+        vm.fetchBooks()
+    }
+
     if (errorMessage.isEmpty()) {
-        Column {
+        Box {
             if (isLoading) {
                 LottieView(
                     modifier = Modifier
@@ -51,111 +59,23 @@ fun BooksScreen(
                         .height(200.dp),
                     animationFile = "loading.json"
                 )
-            } else {
-                BooksContentScreen(
-                    books = books,
-                    onItemSelect = { onItemSelect.invoke(it) },
-                    onSaveBook = { vm.saveBook(it.id, !it.isSaved) }
-                )
             }
+            BooksContentScreen(
+                books = books,
+                onItemSelect = { onItemSelect.invoke(it) },
+                onSaveBook = { vm.saveBook(it.id, !it.isSaved) }
+            )
         }
     } else {
-        Text(errorMessage)
-    }
-}
-
-@Composable
-fun BooksContentScreen(
-    books: List<BookEntity>,
-    onItemSelect: (BookEntity) -> Unit,
-    onSaveBook: (BookEntity) -> Unit
-) {
-    LazyColumn(modifier = Modifier.fillMaxHeight()) {
-        items(books) { book ->
-            Column {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                        .clickable {
-                            onItemSelect(book)
-                        },
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(0.dp, 0.dp, 16.dp, 0.dp)
-                    ) {
-                        BookItem(
-                            book = book,
-                            onItemSelect = { onItemSelect.invoke(it) },
-                            onSaveBook = { onSaveBook.invoke(it) }
-                        )
-                    }
-                }
-
-                HorizontalDivider()
-            }
-        }
-    }
-}
-
-@Composable
-fun BookItem(
-    book: BookEntity,
-    onItemSelect: (BookEntity) -> Unit,
-    onSaveBook: (BookEntity) -> Unit
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 16.dp, top = 16.dp, bottom = 16.dp)
-    ) {
-        Row(
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .clickable {
-                    onItemSelect(book)
-                },
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+                .fillMaxSize()
         ) {
-            Text(text = book.title, style = MaterialTheme.typography.headlineSmall)
-
-            Surface(
-                shape = CircleShape,
-                modifier = Modifier
-                    .size(24.dp),
-                onClick = {
-                    onSaveBook.invoke(book)
-                }
-            ) {
-                Image(
-                    painter = painterResource(
-                        id = if (book.isSaved)
-                            R.drawable.ic_bookmark_active
-                        else
-                            R.drawable.ic_bookmark
-                    ),
-                    contentDescription = stringResource(id = R.string.bookmarks)
-                )
-            }
+            Text(
+                modifier = Modifier.align(Alignment.Center),
+                text = errorMessage
+            )
         }
-
-        Text(
-            modifier = Modifier
-                .padding(top = 8.dp),
-            text = "Authors: ${book.authors.joinToString { it.name }}",
-            style = MaterialTheme.typography.bodyMedium
-        )
-
-        Text(
-            modifier = Modifier
-                .padding(top = 8.dp),
-            text = "Subjects: ${book.subjects.joinToString(", ")}",
-            style = MaterialTheme.typography.bodyMedium
-        )
     }
 }
 
